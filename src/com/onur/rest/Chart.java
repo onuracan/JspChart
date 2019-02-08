@@ -23,9 +23,6 @@ public class Chart {
 	List<Map<Object,Object>> list=new ArrayList<Map<Object,Object>>();
 	Client client=ClientBuilder.newClient();
 	Response response=null;
-	private static final String SUCCESS_RESULT="<result>success</result>";
-	private static final String PASS="pass";
-	private	static final String FAIL="fail";
 	private int databaseCount(String uri){
 		response=client.target(uri).request().get();
 		int count=response.readEntity(int.class);
@@ -35,19 +32,8 @@ public class Chart {
 	}
 	public String chart(){
 		map = new HashMap<Object,Object>();map.put("label", "Genel Personel Sayýsý:"); 
-		map.put("y", databaseCount("http://localhost:8080/RestJpaProject/rest/list")); list.add(map);
+		map.put("y", databaseCount("http://localhost:8080/RestJpaProject/rest/list/count")); list.add(map);
 		String dataPoints=gsonObj.toJson(list);
 		return dataPoints;
-	}
-	public String addData(String name, String surname, int age, String companyCode, String departmentCode){
-		Company c=Company.companyList(companyCode);
-		Department d=Department.departmentList(departmentCode);
-		Employee e=new Employee(name,surname,age,d,c);
-		String callResult=client.target("http://localhost:8080/RestJpaProject/rest/list/insert").request(MediaType.TEXT_PLAIN).post(Entity.entity(e, MediaType.TEXT_PLAIN),String.class);
-		String result=PASS;
-		if(!SUCCESS_RESULT.equals(callResult)){
-			result=FAIL;
-		}
-		return result;
 	}
 }

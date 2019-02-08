@@ -69,8 +69,12 @@ public class Department {
 		}
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("RestJpaProject");
 		EntityManager em=factory.createEntityManager();
-		Query q= em.createQuery("select d from Department d where d.DepartmentCode=:departmentCode");
-		Department d=(Department) q.setParameter("departmentCode", departmentCode).getSingleResult();
+		Query q= em.createQuery("select d from Department d where d.departmentCode=:departmentCode").setParameter("departmentCode", departmentCode);
+		List<Department> department=q.getResultList();
+		Department d = null;
+		for(int i=0; i<department.size(); i++){
+			d=department.get(i);
+		}
 		em.close();
 		factory.close();	
 		return d;

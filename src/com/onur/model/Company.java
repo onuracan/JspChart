@@ -1,5 +1,7 @@
 package com.onur.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -52,10 +54,12 @@ public class Company {
 		if(companyCode==null || companyCode==""){
 			System.out.println("Þirket kodu boþ geçilemez...");
 		}
+		
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("RestJpaProject");
 		EntityManager em=factory.createEntityManager();
-		Query q= em.createNamedQuery("select c from Company c where c.CompanyCode=:companyCode");
-		Company c=(Company) q.setParameter("companyCode", companyCode).getSingleResult();
+		Query q= em.createQuery("select c from Company c where c.companyCode=:companyCode").setParameter("companyCode", companyCode);
+		List<Company> list=q.getResultList();
+		Company c=list.get(0);
 		em.close();
 		factory.close();	
 		return c;

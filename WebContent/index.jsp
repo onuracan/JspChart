@@ -3,10 +3,13 @@
 <%@ page import="com.onur.rest.Rest" %>
  
 <%
+	
 	Chart c=new Chart();
+	Rest r=new Rest();
+	r.add("aaaa", "Açan", 21, "01", "02");
 	String data=c.chart();
-	String result=c.addData("Onur", "Açan", 21, "02", "Bus");
-	out.print(result);
+
+	
 %>
  
 <!DOCTYPE HTML>
